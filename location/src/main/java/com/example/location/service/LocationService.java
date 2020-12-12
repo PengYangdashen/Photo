@@ -1,5 +1,6 @@
 package com.example.location.service;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -14,8 +15,13 @@ import java.text.SimpleDateFormat;
 
 public class LocationService extends Service {
 
-    private String TAG = getClass().getSimpleName();
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final String TAG = getClass().getSimpleName();
+
+    private boolean connecting = false;
+    private Callback callback;
+
+    @SuppressLint("SimpleDateFormat")
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     //声明AMapLocationClient类对象
     public AMapLocationClient locationClient = null;
     //声明定位回调监听器
@@ -30,7 +36,9 @@ public class LocationService extends Service {
                     Log.i(TAG, "纬度: " + aMapLocation.getLatitude());
                     Log.i(TAG, "经度: " + aMapLocation.getLongitude());
                     Log.i(TAG, "精度: " + aMapLocation.getAccuracy());
+                    Log.i(TAG, "速度: " + aMapLocation.getSpeed());
                     Log.i(TAG, "地址: " + aMapLocation.getAddress());
+                    callback.onDataChange(aMapLocation);
                 }else {
                     //定位失败时，可通过ErrCode（错误码）信息来确定失败的原因，errInfo是错误信息，详见错误码表。
                     Log.e(TAG,"location Error, ErrCode:"
@@ -45,7 +53,19 @@ public class LocationService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return new Binder();
+    }
+
+    public class Binder extends android.os.Binder {
+        public LocationService getService() {
+            return  LocationService.this;
+        }
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        connecting = true;
     }
 
     @Override
@@ -66,5 +86,13 @@ public class LocationService extends Service {
             locationClient.startLocation();
         }
         return START_STICKY;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public static interface Callback {
+        void onDataChange(AMapLocation aMapLocation);
     }
 }
