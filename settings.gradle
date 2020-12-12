@@ -1,0 +1,3 @@
+rootProject.name='Photo'
+include ':app'
+include ':location'
