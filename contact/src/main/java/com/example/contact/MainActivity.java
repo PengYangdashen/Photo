@@ -19,6 +19,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText etNameModify;
     private EditText etPhone;
     private EditText etPhoneModify;
+    private EditText etEmail;
+    private EditText etEmailModify;
+    private EditText etAddress;
+    private EditText etAddressModify;
     private Button btnAdd;
     private Button btnDelete;
     private Button btnModify;
@@ -40,6 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etNameModify = findViewById(R.id.et_name_modify);
         etPhone = findViewById(R.id.et_phone);
         etPhoneModify = findViewById(R.id.et_phone_modify);
+        etEmail = findViewById(R.id.et_email);
+        etEmailModify = findViewById(R.id.et_email_modify);
+        etAddress = findViewById(R.id.et_address);
+        etAddressModify = findViewById(R.id.et_address_modify);
         btnAdd = findViewById(R.id.btn_add);
         btnDelete = findViewById(R.id.btn_delete);
         btnModify = findViewById(R.id.btn_modify);
@@ -50,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         etNameModify.setVisibility(View.GONE);
         etPhoneModify.setVisibility(View.GONE);
+        etEmailModify.setVisibility(View.GONE);
+        etAddressModify.setVisibility(View.GONE);
         switch (view.getId()) {
             case R.id.btn_add:
                 break;
@@ -58,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_modify:
                 etNameModify.setVisibility(View.VISIBLE);
                 etPhoneModify.setVisibility(View.VISIBLE);
+                etEmailModify.setVisibility(View.VISIBLE);
+                etAddressModify.setVisibility(View.VISIBLE);
                 break;
             case R.id.btn_search:
                 break;
