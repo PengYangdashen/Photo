@@ -188,53 +188,29 @@ public class DeviceInfoUtils {
     public static String getDeviceAllInfo(Context context) {
 
         return "\n\n1. IMEI:\n\t\t" + getIMEI(context)
-
                 + "\n\n2. 设备宽度:\n\t\t" + getDeviceWidth(context)
-
                 + "\n\n3. 设备高度:\n\t\t" + getDeviceHeight(context)
-
                 + "\n\n4. 是否有内置SD卡:\n\t\t" + SDCardUtils.isSDCardMount()
-
                 + "\n\n5. RAM 信息:\n\t\t" + SDCardUtils.getRAMInfo(context)
-
                 + "\n\n6. 内部存储信息\n\t\t" + SDCardUtils.getStorageInfo(context, 0)
-
                 + "\n\n7. SD卡 信息:\n\t\t" + SDCardUtils.getStorageInfo(context, 1)
-
                 + "\n\n10. 系统默认语言:\n\t\t" + getDeviceDefaultLanguage()
-
                 + "\n\n11. 硬件序列号(设备名):\n\t\t" + android.os.Build.SERIAL
-
                 + "\n\n12. 手机型号:\n\t\t" + android.os.Build.MODEL
-
                 + "\n\n13. 生产厂商:\n\t\t" + android.os.Build.MANUFACTURER
-
                 + "\n\n14. 手机Fingerprint标识:\n\t\t" + android.os.Build.FINGERPRINT
-
                 + "\n\n15. Android 版本:\n\t\t" + android.os.Build.VERSION.RELEASE
-
                 + "\n\n16. Android SDK版本:\n\t\t" + android.os.Build.VERSION.SDK_INT
-
                 + "\n\n17. 安全patch 时间:\n\t\t" + android.os.Build.VERSION.SECURITY_PATCH
-
                 + "\n\n19. 版本类型:\n\t\t" + android.os.Build.TYPE
-
                 + "\n\n20. 用户名:\n\t\t" + android.os.Build.USER
-
                 + "\n\n21. 产品名:\n\t\t" + android.os.Build.PRODUCT
-
                 + "\n\n22. ID:\n\t\t" + android.os.Build.ID
-
                 + "\n\n23. 显示ID:\n\t\t" + android.os.Build.DISPLAY
-
                 + "\n\n24. 硬件名:\n\t\t" + android.os.Build.HARDWARE
-
                 + "\n\n25. 产品名:\n\t\t" + android.os.Build.DEVICE
-
                 + "\n\n26. Bootloader:\n\t\t" + android.os.Build.BOOTLOADER
-
                 + "\n\n27. 主板名:\n\t\t" + android.os.Build.BOARD
-
                 + "\n\n28. CodeName:\n\t\t" + android.os.Build.VERSION.CODENAME
                 + "\n\n29. 语言支持:\n\t\t" + getDeviceSupportLanguage();
 
