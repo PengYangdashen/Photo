@@ -16,14 +16,19 @@ import java.util.List;
 
 public class ContactUtil {
 
+    private static final String TAG = "ContactUtil";
     private static ContactCallback callback;
     private static List<HashMap<String, String>> mContactList = new ArrayList<>();
 
+    public static void setCallback(ContactCallback callback1) {
+        callback = callback1;
+    }
     /**
      * 写入手机联系人
      * @param context
      */
-    private static void writeContact(Context context, Contact contact) {
+    public static void writeContact(Context context, Contact contact) {
+        Log.i(TAG, "writeContact: ");
         String name = contact.getName();
         String number = contact.getPhone();
         String email = contact.getEmail();
@@ -83,7 +88,8 @@ public class ContactUtil {
      * 删除联系人
      * @param context
      */
-    private static void deleteContact(Context context, Contact contact) {
+    public static void deleteContact(Context context, Contact contact) {
+        Log.i(TAG, "deleteContact: ");
         String name = "test";
 
         //根据姓名求id
@@ -112,7 +118,8 @@ public class ContactUtil {
      * @param context
      * @param contact
      */
-    private static void changeContact(Context context, Contact contact){
+    public static void changeContact(Context context, Contact contact){
+        Log.i(TAG, "changeContact: ");
         String name = "test";
         String newPhone = "13644440000";
         //根据姓名求id
@@ -138,19 +145,80 @@ public class ContactUtil {
      * @param context
      * @param contact
      */
-    private static void queryContactsShowData(Context context, Contact contact) {
+    public static void queryContactsShowData(Context context, Contact contact) {
+        Log.i(TAG, "queryContactsShowData: ");
         mContactList.clear();
-        Cursor cursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
         if (cursor == null)
             return;
         while (cursor.moveToNext()) {
             String phoneName;
             String phoneNumber;
             HashMap<String, String> listItem = new HashMap<>();
+            String id = cursor.getString(cursor.getColumnIndex(ContactsContract.RawContacts._ID));
             phoneName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+            String orgWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
+            String[] orgWhereParams = new String[]{id,
+                    ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE};
+            Cursor orgCur = contentResolver.query(ContactsContract.Data.CONTENT_URI,
+                    null, orgWhere, orgWhereParams, null);
+            if (orgCur != null && orgCur.moveToFirst()) {
+                do {
+                    //组织名 (公司名字)
+                    String company = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.DATA));
+                    //职位
+                    String title = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.TITLE));
+                    listItem.put("公司", company);
+                    listItem.put("职务", title);
+                } while (orgCur.moveToNext());
+            }
+            Cursor emailCursor = contentResolver.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI//
+                    , new String[] { ContactsContract.CommonDataKinds.Email.ADDRESS, ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.LABEL}// "data1"
+                    , "raw_contact_id=?", new String[] { id }, null);
+            if (emailCursor != null && emailCursor.moveToFirst()) {
+                do {
+                    Log.i(TAG, "queryContactsShowData: email");
+                    String email = emailCursor.getString(emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
+                    int typeindex = emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE);
+                    int labelindex = emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.LABEL);
+                    int email_type = emailCursor.getInt(typeindex);
+                    String emailLabel = "";
+                    if (email_type == ContactsContract.CommonDataKinds.Email.TYPE_CUSTOM) {
+                        emailLabel = emailCursor.getString(labelindex);
+                    } else {
+                        emailLabel = (String) ContactsContract.CommonDataKinds.Email.getTypeLabel(context.getResources(), email_type, "");
+                    }
+                    listItem.put(emailLabel, email);
+                } while (emailCursor.moveToNext());
+            }
+
+            String[] phoneProjection = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
+            // arr[i] = id + " , 姓名：" + name;
+
+            // 根据联系人的ID获取此人的电话号码
+            Cursor phonesCusor = contentResolver.query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    phoneProjection,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "="
+                            + id, null, null);
+            if (phonesCusor != null && phonesCusor.moveToFirst()) {
+                Log.i(TAG, "queryContactsShowData: phone");
+                do {
+                    int typeindex = phonesCusor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
+                    int labelindex = phonesCusor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL);
+                    int phone_type = phonesCusor.getInt(typeindex);
+                    String phoneLabel = "";
+                    if (phone_type == ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM) {
+                        phoneLabel = phonesCusor.getString(labelindex);
+                    } else {
+                        phoneLabel = (String) ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), phone_type, "");
+                    }
+                    listItem.put(phoneLabel, phonesCusor.getString(0));
+                } while (phonesCusor.moveToNext());
+            }
             listItem.put("phoneName", phoneName);
-            listItem.put("phoneNumber", phoneNumber);
             mContactList.add(listItem);
         }
         callback.onQueryContact(mContactList);
