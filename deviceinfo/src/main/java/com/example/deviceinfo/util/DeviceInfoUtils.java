@@ -22,6 +22,7 @@ import java.util.Locale;
  */
 public class DeviceInfoUtils {
 
+    private static final String TAG = "DeviceInfoUtils";
     /**
      * 获取设备宽度（px）
      */
@@ -40,9 +41,14 @@ public class DeviceInfoUtils {
      * 获取设备的唯一标识， 需要 “android.permission.READ_Phone_STATE”权限
      */
     public static String getIMEI(Context context) {
-        TelephonyManager tm = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tm.getDeviceId();
+        String deviceId = null;
+        try {
+            TelephonyManager tm = (TelephonyManager) context
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            deviceId = tm.getDeviceId();
+        } catch (Exception e) {
+            Log.e(TAG, "getIMEI: " + e);
+        }
         if (deviceId == null) {
             return "UnKnown";
         } else {
@@ -160,10 +166,19 @@ public class DeviceInfoUtils {
     }
 
     /**
-     * 获取当前手机系统语言。
+     * 获取默认手机系统语言。
      */
     public static String getDeviceDefaultLanguage() {
         return Locale.getDefault().getLanguage();
+    }
+
+    /**
+     * 获取当前手机系统语言
+     * @param context
+     * @return
+     */
+    public static String getDeviceCurrentLanguage(Context context) {
+        return context.getResources().getConfiguration().locale.getLanguage();
     }
 
     /**
@@ -187,7 +202,7 @@ public class DeviceInfoUtils {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static String getDeviceAllInfo(Context context) {
 
-        return "\n\n1. IMEI:\n\t\t" + getIMEI(context)
+        return "\n\n1. IEMI:\n\t\t" + getIMEI(context)
                 + "\n\n2. 设备宽度:\n\t\t" + getDeviceWidth(context)
                 + "\n\n3. 设备高度:\n\t\t" + getDeviceHeight(context)
                 + "\n\n4. 是否有内置SD卡:\n\t\t" + SDCardUtils.isSDCardMount()
@@ -212,7 +227,9 @@ public class DeviceInfoUtils {
                 + "\n\n26. Bootloader:\n\t\t" + android.os.Build.BOOTLOADER
                 + "\n\n27. 主板名:\n\t\t" + android.os.Build.BOARD
                 + "\n\n28. CodeName:\n\t\t" + android.os.Build.VERSION.CODENAME
-                + "\n\n29. 语言支持:\n\t\t" + getDeviceSupportLanguage();
+                + "\n\n29. 当前系统语言:\n\t\t" + getDeviceCurrentLanguage(context)
+//                + "\n\n29. 语言支持:\n\t\t" + getDeviceSupportLanguage()
+                ;
 
     }
 }

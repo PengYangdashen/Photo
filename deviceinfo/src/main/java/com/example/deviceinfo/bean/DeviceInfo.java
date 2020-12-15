@@ -22,6 +22,7 @@ public class DeviceInfo {
     private String deviceAndroidVersion;
     private String deviceDefaultLanguage;
     private String deviceSupportLanguage;
+    private String deviceCurrentLanguage;
     private String deviceRAMInfo;
     private String isSDCardMount;
 
@@ -185,6 +186,14 @@ public class DeviceInfo {
         this.deviceSupportLanguage = deviceSupportLanguage;
     }
 
+    public String getDeviceCurrentLanguage() {
+        return deviceCurrentLanguage;
+    }
+
+    public void setDeviceCurrentLanguage(String deviceCurrentLanguage) {
+        this.deviceCurrentLanguage = deviceCurrentLanguage;
+    }
+
     public String getDeviceRAMInfo() {
         return deviceRAMInfo;
     }
@@ -224,6 +233,7 @@ public class DeviceInfo {
                 ", \ndeviceAndroidVersion='" + deviceAndroidVersion + '\'' +
                 ", \ndeviceDefaultLanguage='" + deviceDefaultLanguage + '\'' +
                 ", \ndeviceSupportLanguage='" + deviceSupportLanguage + '\'' +
+                ", \ndeviceCurrentLanguage='" + deviceCurrentLanguage + '\'' +
                 ", \ndeviceRAMInfo='" + deviceRAMInfo + '\'' +
                 ", \nisSDCardMount='" + isSDCardMount + '\'' +
                 '}';
