@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.alibaba.fastjson.JSON;
+import com.example.contact.bean.Addressbook;
 import com.example.contact.thread.ExecutorFactory;
 import com.example.contact.util.ContactUtil;
 
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     }
                 });
-                ContactUtil.queryContactsShowData(context, null);
+                ContactUtil.queryContactsShowData(context, new Addressbook());
             }
         });
     }
@@ -107,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDelete = findViewById(R.id.btn_delete);
         btnModify = findViewById(R.id.btn_modify);
         btnSearch = findViewById(R.id.btn_search);
+        btnAdd.setOnClickListener(this);
+        btnDelete.setOnClickListener(this);
+        btnModify.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
     }
 
     @Override

@@ -23,10 +23,199 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes />
+    <loaded-nodes>
+      <connection connection-id="fc5c9e41-12d6-4459-99d5-c40b47d187ea">
+        <schema name="main" object-types="index, view, table" />
+      </connection>
+      <connection connection-id="5290b694-02a3-454b-8b51-86f4db52ed46">
+        <schema name="main" object-types="index, view, table" />
+      </connection>
+      <connection connection-id="5710598f-ba01-4732-83a1-0ca826fe8f95">
+        <schema name="main" object-types="index, view, table" />
+      </connection>
+    </loaded-nodes>
+  </component>
+  <component name="DBNavigator.Project.DatabaseConsoleManager">
+    <connection id="fc5c9e41-12d6-4459-99d5-c40b47d187ea">
+      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[select
+    c._id,
+    c.contact_last_updated_timestamp,
+    c.custom_ringtone,
+    c.has_phone_number,
+    c.last_time_contacted,
+    c.lookup,
+    c.name_raw_contact_id,
+    c.photo_file_id,
+    c.photo_id,
+    c.pinned,
+    c.send_to_voicemail,
+    c.starred,
+    c.status_update_id,
+    c.times_contacted
+from
+    contacts c;
+
+select
+    d._id,
+    d.carrier_presence,
+    d.data1,
+    d.data10,
+    d.data11,
+    d.data12,
+    d.data13,
+    d.data14,
+    d.data15,
+    d.data2,
+    d.data3,
+    d.data4,
+    d.data5,
+    d.data6,
+    d.data7,
+    d.data8,
+    d.data9,
+    d.data_sync1,
+    d.data_sync2,
+    d.data_sync3,
+    d.data_sync4,
+    d."data_version",
+    d.hash_id,
+    d.is_primary,
+    d.is_read_only,
+    d.is_super_primary,
+    d.mimetype_id,
+    d.package_id,
+    d.raw_contact_id
+from
+    data d;
+
+
+
+select
+    rc._id,
+    rc.account_id,
+    rc.aggregation_mode,
+    rc.aggregation_needed,
+    rc.backup_id,
+    rc.contact_id,
+    rc.custom_ringtone,
+    rc.deleted,
+    rc.dirty,
+    rc.display_name,
+    rc.display_name_alt,
+    rc.display_name_source,
+    rc.last_time_contacted,
+    rc.metadata_dirty,
+    rc.name_verified,
+    rc.phonebook_bucket,
+    rc.phonebook_bucket_alt,
+    rc.phonebook_label,
+    rc.phonebook_label_alt,
+    rc.phonetic_name,
+    rc.phonetic_name_style,
+    rc.pinned,
+    rc.raw_contact_is_read_only,
+    rc.send_to_voicemail,
+    rc.sort_key,
+    rc.sort_key_alt,
+    rc.sourceid,
+    rc.starred,
+    rc.sync1,
+    rc.sync2,
+    rc.sync3,
+    rc.sync4,
+    rc.times_contacted,
+    rc.version
+from
+    raw_contacts rc;
+
+select
+    m._id,
+    m.mimetype
+from
+    mimetypes m;]]></console>
+    </connection>
+    <connection id="5290b694-02a3-454b-8b51-86f4db52ed46">
+      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[select
+    d._id,
+    d."accountName",
+    d."accountType",
+    d.authority,
+    d."displayName",
+    d."exportSupport",
+    d."packageName",
+    d."photoSupport",
+    d."shortcutSupport",
+    d."typeResourceId",
+    d."typeResourceName"
+from
+    directories d;
+select
+    mss._id,
+    mss.account_id,
+    mss.state
+from
+    metadata_sync_state mss;
+
+
+
+
+
+
+
+
+select
+    d._id,
+    d.carrier_presence,
+    d.data1,
+    d.data10,
+    d.data11,
+    d.data12,
+    d.data13,
+    d.data14,
+    d.data15,
+    d.data2,
+    d.data3,
+    d.data4,
+    d.data5,
+    d.data6,
+    d.data7,
+    d.data8,
+    d.data9,
+    d.data_sync1,
+    d.data_sync2,
+    d.data_sync3,
+    d.data_sync4,
+    d."data_version",
+    d.hash_id,
+    d.is_primary,
+    d.is_read_only,
+    d.is_super_primary,
+    d.mimetype_id,
+    d.package_id,
+    d.raw_contact_id
+from
+    data d where d.raw_contact_id = 4;]]></console>
+    </connection>
+    <connection id="5710598f-ba01-4732-83a1-0ca826fe8f95">
+      <console name="Connection 2" type="STANDARD" schema="main" session="Main"><![CDATA[select
+    dc.contact_deleted_timestamp,
+    dc.contact_id
+from
+    deleted_contacts dc;
+
+select
+    vc._id
+from
+    visible_contacts vc;]]></console>
+    </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
+  </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="fc5c9e41-12d6-4459-99d5-c40b47d187ea" />
+    <connection id="5290b694-02a3-454b-8b51-86f4db52ed46" />
+    <connection id="5710598f-ba01-4732-83a1-0ca826fe8f95" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -53,7 +242,266 @@
     <recently-used-interfaces />
   </component>
   <component name="DBNavigator.Project.Settings">
-    <connections />
+    <connections>
+      <connection id="fc5c9e41-12d6-4459-99d5-c40b47d187ea" active="true">
+        <database>
+          <name value="Connection" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="3.21" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="localhost" />
+          <port value="1234" />
+          <database value="database" />
+          <files>
+            <file path="C:\Users\Administrator\Desktop\contacts2.db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="5290b694-02a3-454b-8b51-86f4db52ed46" active="true">
+        <database>
+          <name value="Connection 1" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="3.21" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="localhost" />
+          <port value="1234" />
+          <database value="database" />
+          <files>
+            <file path="C:\Users\Administrator\Desktop\contacts4.db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="5710598f-ba01-4732-83a1-0ca826fe8f95" active="true">
+        <database>
+          <name value="Connection 2" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="3.21" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="localhost" />
+          <port value="1234" />
+          <database value="database" />
+          <files>
+            <file path="C:\Users\Administrator\Desktop\profile.db" schema="main" />
+          </files>
+          <type value="NONE" />
+          <user value="" />
+          <deprecated-pwd value="" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <deprecated-proxy-pwd value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <ssl-settings>
+          <active value="false" />
+          <certificate-authority-file value="" />
+          <client-certificate-file value="" />
+          <client-key-file value="" />
+        </ssl-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <idle-time-to-disconnect value="30" />
+          <idle-time-to-disconnect-pool value="5" />
+          <credential-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false" hide-pseudo-columns="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+    </connections>
     <browser-settings>
       <general>
         <display-mode value="TABBED" />

@@ -8,4 +8,7 @@
     <string name="search_contact">查询联系人</string>
     <string name="address">地址</string>
     <string name="email">邮箱</string>
+    <array name="a" >
+
+    </array>
 </resources>

@@ -8,17 +8,21 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
+import com.alibaba.fastjson.JSON;
+import com.example.contact.bean.Addressbook;
 import com.example.contact.bean.Contact;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ContactUtil {
 
     private static final String TAG = "ContactUtil";
     private static ContactCallback callback;
     private static List<HashMap<String, String>> mContactList = new ArrayList<>();
+    private static List<Addressbook> addressbooks = new ArrayList<>();
 
     public static void setCallback(ContactCallback callback1) {
         callback = callback1;
@@ -116,36 +120,32 @@ public class ContactUtil {
     /**
      * 修改联系人
      * @param context
-     * @param contact
      */
-    public static void changeContact(Context context, Contact contact){
+    public static void changeContact(Context context, Addressbook addressbook){
         Log.i(TAG, "changeContact: ");
-        String name = "test";
-        String newPhone = "13644440000";
-        //根据姓名求id
-        Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
-        ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = resolver.query(uri, new String[]{ContactsContract.Data._ID}, "display_name=?", new String[]{name}, null);
-        if (cursor == null)
-            return;
-
-        if (cursor.moveToFirst()) {
-            int id = cursor.getInt(0);
-            ContentValues values = new ContentValues();
-            values.put("data1", newPhone);
-            resolver.update(uri, values, "mimetype=? and raw_contact_id=?", new String[]{"vnd.android.cursor.item/phone_v2", id + ""});
+        Uri uri = ContactsContract.Data.CONTENT_URI;
+        Map<String, String> phoneBook = addressbook.getPhoneBook();
+        if (phoneBook != null && phoneBook.size() > 0) {
+//            for (String phoneKey : phoneBook.keySet()) {
+//                ContentValues values = new ContentValues();
+//                values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, phoneBook.get(phoneKey));
+//                String where = ContactsContract.Data.RAW_CONTACT_ID + "=? AND "
+//                        + ContactsContract.Data.MIMETYPE + "=?";
+//                String[] selectionArgs = new String[] { String.valueOf(addressbook.getId()),
+//                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE };
+//                int updatedRow = context.getContentResolver().update(uri, values, where, selectionArgs);
+//                Log.i(TAG, "changedContact: " + updatedRow);
+//            }
         }else{
             callback.onToast("没有找到号码");
         }
-        cursor.close();
     }
 
     /**
      * 查询联系人
      * @param context
-     * @param contact
      */
-    public static void queryContactsShowData(Context context, Contact contact) {
+    public static void queryContactsShowData(Context context, Addressbook queryAddressbook) {
         Log.i(TAG, "queryContactsShowData: ");
         mContactList.clear();
         ContentResolver contentResolver = context.getContentResolver();
@@ -153,10 +153,15 @@ public class ContactUtil {
         if (cursor == null)
             return;
         while (cursor.moveToNext()) {
+            Addressbook addressbook = new Addressbook();
             String phoneName;
             String phoneNumber;
             HashMap<String, String> listItem = new HashMap<>();
+            HashMap<String, String> emailBook = new HashMap<>();
+            HashMap<String, String> phoneBook = new HashMap<>();
             String id = cursor.getString(cursor.getColumnIndex(ContactsContract.RawContacts._ID));
+            listItem.put("id", id);
+            addressbook.setId(id);
             phoneName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
 
             String orgWhere = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
@@ -171,7 +176,9 @@ public class ContactUtil {
                     //职位
                     String title = orgCur.getString(orgCur.getColumnIndex(ContactsContract.CommonDataKinds.Organization.TITLE));
                     listItem.put("公司", company);
+                    addressbook.setCompany(company);
                     listItem.put("职务", title);
+                    addressbook.setPosition(title);
                 } while (orgCur.moveToNext());
             }
             Cursor emailCursor = contentResolver.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI//
@@ -191,7 +198,9 @@ public class ContactUtil {
                         emailLabel = (String) ContactsContract.CommonDataKinds.Email.getTypeLabel(context.getResources(), email_type, "");
                     }
                     listItem.put(emailLabel, email);
+                    emailBook.put(emailLabel, email);
                 } while (emailCursor.moveToNext());
+                addressbook.setEmailBook(emailBook);
             }
 
             String[] phoneProjection = new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LABEL};
@@ -206,6 +215,7 @@ public class ContactUtil {
             if (phonesCusor != null && phonesCusor.moveToFirst()) {
                 Log.i(TAG, "queryContactsShowData: phone");
                 do {
+                    String phone = phonesCusor.getString(phonesCusor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DATA1));
                     int typeindex = phonesCusor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE);
                     int labelindex = phonesCusor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL);
                     int phone_type = phonesCusor.getInt(typeindex);
@@ -215,12 +225,19 @@ public class ContactUtil {
                     } else {
                         phoneLabel = (String) ContactsContract.CommonDataKinds.Phone.getTypeLabel(context.getResources(), phone_type, "");
                     }
-                    listItem.put(phoneLabel, phonesCusor.getString(0));
+                    listItem.put(phoneLabel, phone);
+                    phoneBook.put(phoneLabel, phone);
                 } while (phonesCusor.moveToNext());
+                addressbook.setPhoneBook(phoneBook);
             }
+
             listItem.put("phoneName", phoneName);
+            addressbook.setName(phoneName);
             mContactList.add(listItem);
+            addressbooks.add(addressbook);
         }
+
+        Log.i(TAG, "queryContactsShowData: addressbooks:\n" + JSON.toJSONString(addressbooks));
         callback.onQueryContact(mContactList);
         cursor.close();
     }

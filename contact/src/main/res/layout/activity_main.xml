@@ -8,7 +8,8 @@
         tools:context=".MainActivity">
 
     <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                      android:orientation="vertical">
             <TextView
                     android:id="@+id/tv_contact"
                     android:layout_width="match_parent"
@@ -19,26 +20,43 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:id="@+id/ll">
-        <LinearLayout android:id="@+id/ll_name" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="40dp">
-            <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/name" android:gravity="center"/>
-            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:id="@+id/et_name"/>
-            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:id="@+id/et_name_modify"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical" android:id="@+id/ll">
+        <LinearLayout android:id="@+id/ll_name" android:orientation="horizontal" android:layout_width="match_parent"
+                      android:layout_height="40dp">
+            <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/name"
+                      android:gravity="center"/>
+            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+                      android:id="@+id/et_name"/>
+            <EditText android:layout_width="0dp" android:visibility="gone" android:layout_weight="1"
+                      android:layout_height="match_parent" android:id="@+id/et_name_modify"/>
         </LinearLayout>
-        <LinearLayout android:id="@+id/ll_phone" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="40dp">
-            <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/phone" android:gravity="center"/>
-            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:id="@+id/et_phone"/>
-            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:id="@+id/et_phone_modify"/>
+        <LinearLayout android:id="@+id/ll_phone" android:orientation="horizontal" android:layout_width="match_parent"
+                      android:layout_height="40dp">
+            <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/phone"
+                      android:gravity="center"/>
+            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+                      android:id="@+id/et_phone"/>
+            <EditText android:layout_width="0dp" android:visibility="gone" android:layout_weight="1"
+                      android:layout_height="match_parent" android:id="@+id/et_phone_modify"/>
         </LinearLayout>
-        <LinearLayout android:id="@+id/ll_email" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="40dp">
-            <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/email" android:gravity="center"/>
-            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:id="@+id/et_email"/>
-            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:id="@+id/et_email_modify"/>
+        <LinearLayout android:id="@+id/ll_email" android:orientation="horizontal" android:layout_width="match_parent"
+                      android:layout_height="40dp">
+            <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/email"
+                      android:gravity="center"/>
+            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+                      android:id="@+id/et_email"/>
+            <EditText android:layout_width="0dp" android:visibility="gone" android:layout_weight="1"
+                      android:layout_height="match_parent" android:id="@+id/et_email_modify"/>
         </LinearLayout>
-        <LinearLayout android:id="@+id/ll_address" android:orientation="horizontal" android:layout_width="match_parent" android:layout_height="40dp">
-            <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/address" android:gravity="center"/>
-            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:id="@+id/et_address"/>
-            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent" android:id="@+id/et_address_modify"/>
+        <LinearLayout android:id="@+id/ll_address" android:orientation="horizontal" android:layout_width="match_parent"
+                      android:layout_height="40dp">
+            <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/address"
+                      android:gravity="center"/>
+            <EditText android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent"
+                      android:id="@+id/et_address"/>
+            <EditText android:layout_width="0dp" android:visibility="gone" android:layout_weight="1"
+                      android:layout_height="match_parent" android:id="@+id/et_address_modify"/>
         </LinearLayout>
 
     </LinearLayout>
