@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AudioRecorder</string>
+    <string name="start">开始</string>
+    <string name="end">结束</string>
 </resources>
