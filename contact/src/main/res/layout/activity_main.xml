@@ -40,7 +40,7 @@
             <EditText android:layout_width="0dp" android:visibility="gone" android:layout_weight="1"
                       android:layout_height="match_parent" android:id="@+id/et_phone_modify"/>
         </LinearLayout>
-        <LinearLayout android:id="@+id/ll_email" android:orientation="horizontal" android:layout_width="match_parent"
+        <LinearLayout android:id="@+id/ll_email" android:visibility="gone" android:orientation="horizontal" android:layout_width="match_parent"
                       android:layout_height="40dp">
             <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/email"
                       android:gravity="center"/>
@@ -49,7 +49,7 @@
             <EditText android:layout_width="0dp" android:visibility="gone" android:layout_weight="1"
                       android:layout_height="match_parent" android:id="@+id/et_email_modify"/>
         </LinearLayout>
-        <LinearLayout android:id="@+id/ll_address" android:orientation="horizontal" android:layout_width="match_parent"
+        <LinearLayout android:id="@+id/ll_address" android:visibility="gone" android:orientation="horizontal" android:layout_width="match_parent"
                       android:layout_height="40dp">
             <TextView android:layout_width="60dp" android:layout_height="40dp" android:text="@string/address"
                       android:gravity="center"/>

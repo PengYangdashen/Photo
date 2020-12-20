@@ -1,5 +1,6 @@
 package com.example.contact;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -18,6 +19,7 @@ import com.example.contact.util.ContactUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         context = this;
         List<String> permissions = new ArrayList<>();
         permissions.add(android.Manifest.permission.READ_CONTACTS);
+        permissions.add(Manifest.permission.WRITE_CONTACTS);
         if (Build.VERSION.SDK_INT >= 23) {
             List<String> permissionList = new ArrayList<String>();
             for (String permission : permissions) {
@@ -115,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSearch.setOnClickListener(this);
     }
 
+    private boolean vis = false;
+
     @Override
     public void onClick(View view) {
         etNameModify.setVisibility(View.GONE);
@@ -123,16 +128,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         etAddressModify.setVisibility(View.GONE);
         switch (view.getId()) {
             case R.id.btn_add:
+                vis = false;
+                Addressbook addBook = new Addressbook();
+                Map<String, String> phoneBook = new HashMap<>();
+                String name = etName.getText().toString();
+                String phone = etPhone.getText().toString();
+                phoneBook.put("1", phone);
+                addBook.setName(name);
+                addBook.setPhoneBook(phoneBook);
+                ContactUtil.writeContact(context, addBook);
+                ContactUtil.queryContactsShowData(context, new Addressbook());
                 break;
             case R.id.btn_delete:
+                vis = false;
+                Addressbook deleteBook = new Addressbook();
+                deleteBook.setId("9");
+                ContactUtil.deleteContact(context, deleteBook);
                 break;
             case R.id.btn_modify:
+                if (vis) {
+                    Addressbook modifyBook = new Addressbook();
+                    modifyBook.setId("7");
+                    Map<String, String> modifyPhoneBook = new HashMap<>();
+                    modifyPhoneBook.put("2", etPhoneModify.getText().toString());
+                    modifyBook.setPhoneBook(modifyPhoneBook);
+                    ContactUtil.changeContact(context, modifyBook);
+                }
                 etNameModify.setVisibility(View.VISIBLE);
                 etPhoneModify.setVisibility(View.VISIBLE);
                 etEmailModify.setVisibility(View.VISIBLE);
                 etAddressModify.setVisibility(View.VISIBLE);
+                vis = true;
                 break;
             case R.id.btn_search:
+                vis = false;
                 break;
             default:
                 break;

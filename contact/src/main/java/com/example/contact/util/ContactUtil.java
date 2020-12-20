@@ -12,10 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.contact.bean.Addressbook;
 import com.example.contact.bean.Contact;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ContactUtil {
 
@@ -31,11 +28,17 @@ public class ContactUtil {
      * 写入手机联系人
      * @param context
      */
-    public static void writeContact(Context context, Contact contact) {
+    public static void writeContact(Context context, Addressbook addressbook) {
         Log.i(TAG, "writeContact: ");
-        String name = contact.getName();
-        String number = contact.getPhone();
-        String email = contact.getEmail();
+        String name = addressbook.getName();
+        Map<String, String> phoneBook = addressbook.getPhoneBook();
+        String number = "";
+        for (String phoneKey : phoneBook.keySet()) {
+            number = phoneBook.get(phoneKey);
+        }
+        Log.i(TAG, "writeContact: name->" + name);
+        Log.i(TAG, "writeContact: number->" + number);
+//        String email = addressbook.getEmailBook().get(0);
 
         //先查询要添加的号码是否已存在通讯录中, 不存在则添加. 存在则提示用户
         Uri uri = Uri.parse("content://com.android.contacts/data/phones/filter/" + number);
@@ -69,19 +72,19 @@ public class ContactUtil {
             values.clear();
 
             //add email
-            values.put("raw_contact_id", contact_id);
-            values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/email_v2");
-            values.put("data1", email);
-            resolver.insert(uri, values);
-            values.clear();
+//            values.put("raw_contact_id", contact_id);
+//            values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/email_v2");
+//            values.put("data1", email);
+//            resolver.insert(uri, values);
+//            values.clear();
 
             //add organization
-            values.put("raw_contact_id", contact_id);
-            values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/organization");
-            values.put("data4", "产品经理");   //职务
-            values.put("data1", "腾讯科技");   //公司
-            resolver.insert(uri, values);
-            values.clear();
+//            values.put("raw_contact_id", contact_id);
+//            values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/organization");
+//            values.put("data4", "产品经理");   //职务
+//            values.put("data1", "腾讯科技");   //公司
+//            resolver.insert(uri, values);
+//            values.clear();
 
             callback.onToast("插入号码成功");
         }
@@ -92,29 +95,29 @@ public class ContactUtil {
      * 删除联系人
      * @param context
      */
-    public static void deleteContact(Context context, Contact contact) {
+    public static void deleteContact(Context context, Addressbook addressbook) {
         Log.i(TAG, "deleteContact: ");
-        String name = "test";
+        String id = addressbook.getId();
 
-        //根据姓名求id
+//        //根据姓名求id
         Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
         ContentResolver resolver = context.getContentResolver();
-        Cursor cursor = resolver.query(uri, new String[]{ContactsContract.Data._ID}, "display_name=?", new String[]{name}, null);
-        if (cursor == null)
-            return;
-
-        if (cursor.moveToFirst()) {
-            int id = cursor.getInt(0);
+//        Cursor cursor = resolver.query(uri, new String[]{ContactsContract.Data._ID}, "display_name=?", new String[]{name}, null);
+//        if (cursor == null)
+//            return;
+//
+//        if (cursor.moveToFirst()) {
+//            int id = cursor.getInt(0);
             //根据id删除data中的相应数据
-            resolver.delete(uri, "display_name=?", new String[]{name});
+            resolver.delete(uri, "_id=?", new String[]{id});
             uri = Uri.parse("content://com.android.contacts/data");
-            resolver.delete(uri, "raw_contact_id=?", new String[]{id + ""});
+            resolver.delete(uri, "raw_contact_id=?", new String[]{id});
 
             callback.onToast("删除号码成功");
-        }else{
-            callback.onToast("没有找到号码");
-        }
-        cursor.close();
+//        }else{
+//            callback.onToast("没有找到号码");
+//        }
+//        cursor.close();
     }
 
     /**
@@ -126,7 +129,9 @@ public class ContactUtil {
         Uri uri = ContactsContract.Data.CONTENT_URI;
         Map<String, String> phoneBook = addressbook.getPhoneBook();
         if (phoneBook != null && phoneBook.size() > 0) {
-//            for (String phoneKey : phoneBook.keySet()) {
+            String phone = "";
+            for (String phoneKey : phoneBook.keySet()) {
+                phone = phoneBook.get(phoneKey);
 //                ContentValues values = new ContentValues();
 //                values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, phoneBook.get(phoneKey));
 //                String where = ContactsContract.Data.RAW_CONTACT_ID + "=? AND "
@@ -135,7 +140,10 @@ public class ContactUtil {
 //                        ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE };
 //                int updatedRow = context.getContentResolver().update(uri, values, where, selectionArgs);
 //                Log.i(TAG, "changedContact: " + updatedRow);
-//            }
+            }
+            ContentValues values = new ContentValues();
+            values.put("data1", phone);
+            context.getContentResolver().update(uri, values, "mimetype=? and raw_contact_id=?", new String[]{"vnd.android.cursor.item/phone_v2", addressbook.getId()});
         }else{
             callback.onToast("没有找到号码");
         }
