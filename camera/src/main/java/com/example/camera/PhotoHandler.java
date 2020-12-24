@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.util.Log;
+import com.example.camera.util.PhotoUtil;
 
 public class PhotoHandler implements Camera.PictureCallback {
     private static final String TAG = "PhotoHandler";
@@ -18,5 +19,7 @@ public class PhotoHandler implements Camera.PictureCallback {
     public void onPictureTaken(byte[] bytes, Camera camera) {
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, 0);
         Log.i(TAG, "onPictureTaken: " + bytes.toString());
+        String base64 = PhotoUtil.bitmapToBase64(bitmap);
+        Log.i(TAG, "onPictureTaken: " + base64);
     }
 }

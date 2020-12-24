@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         permissions.add(android.Manifest.permission.SEND_SMS);
         requestRuntimePermission(permissions, 1);
 
+
     }
 
     /**
