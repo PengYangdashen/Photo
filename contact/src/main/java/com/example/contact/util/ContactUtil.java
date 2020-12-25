@@ -31,64 +31,65 @@ public class ContactUtil {
     public static void writeContact(Context context, Addressbook addressbook) {
         Log.i(TAG, "writeContact: ");
         String name = addressbook.getName();
+        String company = addressbook.getCompany();
+        String position = addressbook.getPosition();
         Map<String, String> phoneBook = addressbook.getPhoneBook();
+        Map<String, String> emailBook = addressbook.getEmailBook();
         String number = "";
-        for (String phoneKey : phoneBook.keySet()) {
-            number = phoneBook.get(phoneKey);
-        }
-        Log.i(TAG, "writeContact: name->" + name);
-        Log.i(TAG, "writeContact: number->" + number);
-//        String email = addressbook.getEmailBook().get(0);
 
-        //先查询要添加的号码是否已存在通讯录中, 不存在则添加. 存在则提示用户
-        Uri uri = Uri.parse("content://com.android.contacts/data/phones/filter/" + number);
+//        //先查询要添加的号码是否已存在通讯录中, 不存在则添加. 存在则提示用户
+//        Uri uri = Uri.parse("content://com.android.contacts/data/phones/filter/" + number);
         ContentResolver resolver = context.getContentResolver();
-        //从raw_contact表中返回display_name
-        Cursor cursor = resolver.query(uri, new String[]{ContactsContract.Data.DISPLAY_NAME}, null, null, null);
-        if (cursor == null)
-            return;
+//        //从raw_contact表中返回display_name
+//        Cursor cursor = resolver.query(uri, new String[]{ContactsContract.Data.DISPLAY_NAME}, null, null, null);
+//        if (cursor == null)
+//            return;
+//
+//        if (cursor.moveToFirst()) {
+//            Log.i("nn", "name=" + cursor.getString(0));
+//        } else {
+        Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
+        ContentValues values = new ContentValues();
+        long contact_id = ContentUris.parseId(resolver.insert(uri, values));
+        //插入data表
+        uri = Uri.parse("content://com.android.contacts/data");
+        //add Name
+        values.put("raw_contact_id", contact_id);
+        values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/name");
+        values.put("data1", name);
+        resolver.insert(uri, values);
+        values.clear();
 
-        if (cursor.moveToFirst()) {
-            Log.i("nn", "name=" + cursor.getString(0));
-            callback.onToast("存在相同号码");
-        } else {
-            uri = Uri.parse("content://com.android.contacts/raw_contacts");
-            ContentValues values = new ContentValues();
-            long contact_id = ContentUris.parseId(resolver.insert(uri, values));
-            //插入data表
-            uri = Uri.parse("content://com.android.contacts/data");
-            //add Name
-            values.put("raw_contact_id", contact_id);
-            values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/name");
-            values.put("data1", name);
-            resolver.insert(uri, values);
-            values.clear();
-
-            //add Phone
+        //add Phone
+        for (String phoneKey : phoneBook.keySet()) {
             values.put("raw_contact_id", contact_id);
             values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/phone_v2");
-            values.put("data1", number);
+            values.put("data1", phoneBook.get(phoneKey));
+            values.put("data2", phoneKey);
             resolver.insert(uri, values);
             values.clear();
-
-            //add email
-//            values.put("raw_contact_id", contact_id);
-//            values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/email_v2");
-//            values.put("data1", email);
-//            resolver.insert(uri, values);
-//            values.clear();
-
-            //add organization
-//            values.put("raw_contact_id", contact_id);
-//            values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/organization");
-//            values.put("data4", "产品经理");   //职务
-//            values.put("data1", "腾讯科技");   //公司
-//            resolver.insert(uri, values);
-//            values.clear();
-
-            callback.onToast("插入号码成功");
         }
-        cursor.close();
+
+
+        //add email
+        for (String emailKey : emailBook.keySet()) {
+            values.put("raw_contact_id", contact_id);
+            values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/email_v2");
+            values.put("data1", emailBook.get(emailKey));
+            values.put("data2", emailKey);
+            resolver.insert(uri, values);
+            values.clear();
+        }
+        //add organization
+        values.put("raw_contact_id", contact_id);
+        values.put(ContactsContract.Data.MIMETYPE, "vnd.android.cursor.item/organization");
+        values.put("data4", position);   //职务
+        values.put("data1",company);   //公司
+        resolver.insert(uri, values);
+        values.clear();
+
+//        }
+//        cursor.close();
     }
 
     /**
