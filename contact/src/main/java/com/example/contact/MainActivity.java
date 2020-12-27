@@ -134,10 +134,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Map<String, String> emailBook = new HashMap<>();
                 String name = etName.getText().toString();
                 String phone = etPhone.getText().toString();
+                // 1-住宅
+                // 2-手机
+                // 3-单位
+                // 4-单位传真
+                // 5-住宅传真
+                // 6-寻呼机
+                // 7-其他
                 phoneBook.put("1", "1865212147");
                 phoneBook.put("2", "0332163591");
+                phoneBook.put("3", "0332163592");
+                phoneBook.put("4", "0332163593");
+                phoneBook.put("5", "0332163594");
+                phoneBook.put("6", "0332163595");
+                phoneBook.put("7", "0332163596");
+                // 1-个人
+                // 2-工作
+                // 3-其他
+                // 4-手机
+                // 5-自定义
                 emailBook.put("1", "10235@qq.com");
                 emailBook.put("2", "1asdas3333@qq.com");
+                emailBook.put("3", "3@qq.com");
+                emailBook.put("4", "4@qq.com");
+                emailBook.put("5", "5@qq.com");
+                emailBook.put("6", "6@qq.com");
                 addBook.setName(name);
                 addBook.setPhoneBook(phoneBook);
                 addBook.setEmailBook(emailBook);
