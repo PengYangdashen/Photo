@@ -1,6 +1,7 @@
-package com.example.photo;
+package com.example.photo.util;
 
 import android.util.Log;
+import com.example.photo.callback.NetwordCallBack;
 
 import java.io.BufferedReader;
 import java.io.IOException;

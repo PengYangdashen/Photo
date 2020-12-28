@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.photo.view.ProgressBar;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

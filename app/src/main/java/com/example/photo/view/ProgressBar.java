@@ -1,4 +1,4 @@
-package com.example.photo;
+package com.example.photo.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.graphics.*;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import com.example.photo.R;
 import org.jetbrains.annotations.Nullable;
 
 public class ProgressBar extends View {
