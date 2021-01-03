@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/audiorecorder" />
             <option value="$PROJECT_DIR$/camera" />
+            <option value="$PROJECT_DIR$/camera2" />
             <option value="$PROJECT_DIR$/contact" />
             <option value="$PROJECT_DIR$/deviceinfo" />
             <option value="$PROJECT_DIR$/location" />

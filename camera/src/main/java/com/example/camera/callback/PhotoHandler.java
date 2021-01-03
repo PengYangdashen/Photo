@@ -1,4 +1,4 @@
-package com.example.camera;
+package com.example.camera.callback;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,9 +17,11 @@ public class PhotoHandler implements Camera.PictureCallback {
 
     @Override
     public void onPictureTaken(byte[] bytes, Camera camera) {
+        Log.i(TAG, "onPictureTaken: ");
         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, 0);
         Log.i(TAG, "onPictureTaken: " + bytes.toString());
         String base64 = PhotoUtil.bitmapToBase64(bitmap);
         Log.i(TAG, "onPictureTaken: " + base64);
+        camera.startPreview();
     }
 }
