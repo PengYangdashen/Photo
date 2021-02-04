@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         context = this;
         List<String> permissions = new ArrayList<>();
         permissions.add(android.Manifest.permission.READ_CONTACTS);
-        permissions.add(Manifest.permission.WRITE_CONTACTS);
+        permissions.add(android.Manifest.permission.WRITE_CONTACTS);
+        permissions.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permissions.add(android.Manifest.permission.READ_EXTERNAL_STORAGE);
         if (Build.VERSION.SDK_INT >= 23) {
             List<String> permissionList = new ArrayList<String>();
             for (String permission : permissions) {
@@ -73,24 +75,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ExecutorFactory.getThreadInstance().execute(new Runnable() {
             @Override
             public void run() {
-                ContactUtil.setCallback(new ContactUtil.ContactCallback() {
-                    @Override
-                    public void onToast(String message) {
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onQueryContact(List<HashMap<String, String>> contactList) {
-                        Log.i(TAG, "onQueryContact: contactList->" + contactList.size());
-                        for (HashMap<String, String> map : contactList) {
-                            for (String key : map.keySet()) {
-                                tvContent.append(key + ":" + map.get(key) + "\n");
-                            }
-                            tvContent.append("---------------------\n");
-                        }
-                    }
-                });
+//                ContactUtil.setCallback(new ContactUtil.ContactCallback() {
+//                    @Override
+//                    public void onToast(String message) {
+//                        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    @Override
+//                    public void onQueryContact(List<HashMap<String, String>> contactList) {
+//                        Log.i(TAG, "onQueryContact: contactList->" + contactList.size());
+//                        for (HashMap<String, String> map : contactList) {
+//                            for (String key : map.keySet()) {
+//                                tvContent.append(key + ":" + map.get(key) + "\n");
+//                            }
+//                            tvContent.append("---------------------\n");
+//                        }
+//                    }
+//                });
                 ContactUtil.queryContactsShowData(context, new Addressbook());
+                ContactUtil.queryContacts(context);
             }
         });
     }
@@ -170,7 +173,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_delete:
                 vis = false;
                 Addressbook deleteBook = new Addressbook();
-                deleteBook.setId("9");
+                String id = etPhone.getText().toString();
+                deleteBook.setId(id);
                 ContactUtil.deleteContact(context, deleteBook);
                 break;
             case R.id.btn_modify:

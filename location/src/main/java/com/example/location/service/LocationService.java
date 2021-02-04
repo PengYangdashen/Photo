@@ -28,6 +28,7 @@ public class LocationService extends Service {
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
         public void onLocationChanged(AMapLocation aMapLocation) {
+            Log.i(TAG, "onLocationChanged: ");
             if (aMapLocation != null) {
                 if (aMapLocation.getErrorCode() == 0) {
                 //可在其中解析amapLocation获取相应内容。
@@ -65,11 +66,9 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i(TAG, "onCreate: ");
         connecting = true;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "onStartCommand: ");
         //初始化定位
         locationClient = new AMapLocationClient(getApplicationContext());
         //设置定位回调监听
@@ -85,14 +84,23 @@ public class LocationService extends Service {
             locationClient.stopLocation();
             locationClient.startLocation();
         }
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
+    }
+
+    public AMapLocation getCurrentLocation() {
+        Log.i(TAG, "getCurrentLocation: ");
+        return locationClient.getLastKnownLocation();
     }
 
     public void setCallback(Callback callback) {
         this.callback = callback;
     }
 
-    public static interface Callback {
+    public interface Callback {
         void onDataChange(AMapLocation aMapLocation);
     }
 }

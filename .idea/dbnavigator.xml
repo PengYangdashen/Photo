@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -23,17 +23,7 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="fc5c9e41-12d6-4459-99d5-c40b47d187ea">
-        <schema name="main" object-types="index, view, table" />
-      </connection>
-      <connection connection-id="5290b694-02a3-454b-8b51-86f4db52ed46">
-        <schema name="main" object-types="index, view, table" />
-      </connection>
-      <connection connection-id="5710598f-ba01-4732-83a1-0ca826fe8f95">
-        <schema name="main" object-types="index, view, table" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="fc5c9e41-12d6-4459-99d5-c40b47d187ea">
@@ -132,7 +122,58 @@ select
     m._id,
     m.mimetype
 from
-    mimetypes m;]]></console>
+    mimetypes m;
+
+select
+    d._id,
+    d.carrier_presence,
+    d.data1,
+    d.data10,
+    d.data11,
+    d.data12,
+    d.data13,
+    d.data14,
+    d.data15,
+    d.data2,
+    d.data3,
+    d.data4,
+    d.data5,
+    d.data6,
+    d.data7,
+    d.data8,
+    d.data9,
+    d.data_sync1,
+    d.data_sync2,
+    d.data_sync3,
+    d.data_sync4,
+    d."data_version",
+    d.hash_id,
+    d.is_primary,
+    d.is_read_only,
+    d.is_super_primary,
+    d.mimetype_id,
+    d.package_id,
+    d.raw_contact_id
+from
+    data d;
+
+select
+    c._id,
+    c.contact_last_updated_timestamp,
+    c.custom_ringtone,
+    c.has_phone_number,
+    c.last_time_contacted,
+    c.lookup,
+    c.name_raw_contact_id,
+    c.photo_file_id,
+    c.photo_id,
+    c.pinned,
+    c.send_to_voicemail,
+    c.starred,
+    c.status_update_id,
+    c.times_contacted
+from
+    contacts c;]]></console>
     </connection>
     <connection id="5290b694-02a3-454b-8b51-86f4db52ed46">
       <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[select
@@ -216,6 +257,9 @@ from
     <connection id="fc5c9e41-12d6-4459-99d5-c40b47d187ea" />
     <connection id="5290b694-02a3-454b-8b51-86f4db52ed46" />
     <connection id="5710598f-ba01-4732-83a1-0ca826fe8f95" />
+  </component>
+  <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="fc5c9e41-12d6-4459-99d5-c40b47d187ea" dataset="main.data" active-filter-id="" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />

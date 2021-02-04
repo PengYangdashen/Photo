@@ -13,10 +13,14 @@
             <option value="$PROJECT_DIR$/audiorecorder" />
             <option value="$PROJECT_DIR$/camera" />
             <option value="$PROJECT_DIR$/camera2" />
+            <option value="$PROJECT_DIR$/camera3" />
+            <option value="$PROJECT_DIR$/camera4" />
+            <option value="$PROJECT_DIR$/cameracopy" />
             <option value="$PROJECT_DIR$/contact" />
             <option value="$PROJECT_DIR$/deviceinfo" />
             <option value="$PROJECT_DIR$/location" />
             <option value="$PROJECT_DIR$/message" />
+            <option value="$PROJECT_DIR$/originalcamera" />
             <option value="$PROJECT_DIR$/websocket" />
           </set>
         </option>

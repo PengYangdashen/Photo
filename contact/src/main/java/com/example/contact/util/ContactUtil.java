@@ -17,13 +17,9 @@ import java.util.*;
 public class ContactUtil {
 
     private static final String TAG = "ContactUtil";
-    private static ContactCallback callback;
     private static List<HashMap<String, String>> mContactList = new ArrayList<>();
     private static List<Addressbook> addressbooks = new ArrayList<>();
 
-    public static void setCallback(ContactCallback callback1) {
-        callback = callback1;
-    }
     /**
      * 写入手机联系人
      * @param context
@@ -97,8 +93,8 @@ public class ContactUtil {
      * @param context
      */
     public static void deleteContact(Context context, Addressbook addressbook) {
-        Log.i(TAG, "deleteContact: ");
         String id = addressbook.getId();
+        Log.i(TAG, "deleteContact: " + id);
 
 //        //根据姓名求id
         Uri uri = Uri.parse("content://com.android.contacts/raw_contacts");
@@ -110,11 +106,12 @@ public class ContactUtil {
 //        if (cursor.moveToFirst()) {
 //            int id = cursor.getInt(0);
             //根据id删除data中的相应数据
-            resolver.delete(uri, "_id=?", new String[]{id});
-            uri = Uri.parse("content://com.android.contacts/data");
-            resolver.delete(uri, "raw_contact_id=?", new String[]{id});
-
-            callback.onToast("删除号码成功");
+        int delete = resolver.delete(uri, "_id=?", new String[]{id});
+        uri = Uri.parse("content://com.android.contacts/data");
+        int delete1 = resolver.delete(uri, "name_raw_contact_id=?", new String[]{id});
+        Log.i(TAG, "deleteContact: name_raw_contact_id->" + delete);
+        Log.i(TAG, "deleteContact: data->" + delete1);
+//            callback.onToast("删除号码成功");
 //        }else{
 //            callback.onToast("没有找到号码");
 //        }
@@ -146,7 +143,6 @@ public class ContactUtil {
             values.put("data1", phone);
             context.getContentResolver().update(uri, values, "mimetype=? and raw_contact_id=?", new String[]{"vnd.android.cursor.item/phone_v2", addressbook.getId()});
         }else{
-            callback.onToast("没有找到号码");
         }
     }
 
@@ -245,10 +241,61 @@ public class ContactUtil {
             mContactList.add(listItem);
             addressbooks.add(addressbook);
         }
-
         Log.i(TAG, "queryContactsShowData: addressbooks:\n" + JSON.toJSONString(addressbooks));
-        callback.onQueryContact(mContactList);
         cursor.close();
+    }
+
+    public static void queryContacts(Context context) {
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor cursor1 = contentResolver.query(Uri.parse("content://com.android.contacts/contacts"), null, null, null, null);
+        Cursor cursor2 = contentResolver.query(Uri.parse("content://com.android.contacts/raw_contacts"), null, null, null, null);
+        Cursor cursor3 = contentResolver.query(Uri.parse("content://com.android.contacts/data"), null, null, null, null);
+        if (cursor1 == null) {
+            return;
+        }
+        String[] names1 = cursor1.getColumnNames();
+        List<Map<String, String>> contactList = new ArrayList<>();
+        while (cursor1.moveToNext()) {
+            Map<String, String> map = new HashMap<>();
+            for (String name : names1) {
+                map.put(name, cursor1.getString(cursor1.getColumnIndex(name)));
+            }
+            contactList.add(map);
+        }
+        Log.i(TAG, "contactList: " + JSON.toJSONString(contactList));
+        FileUtil.printStringToFile(context.getCacheDir().getAbsolutePath(), "contactList.json", JSON.toJSONString(contactList));
+        if (cursor2 == null) {
+            return;
+        }
+        String[] names2 = cursor2.getColumnNames();
+        List<Map<String, String>> rowContactList = new ArrayList<>();
+        while (cursor2.moveToNext()) {
+            Map<String, String> map = new HashMap<>();
+            for (String name : names2) {
+                map.put(name, cursor2.getString(cursor2.getColumnIndex(name)));
+            }
+            rowContactList.add(map);
+        }
+        Log.i(TAG, "rowContactList: " + JSON.toJSONString(rowContactList));
+        FileUtil.printStringToFile(context.getCacheDir().getAbsolutePath(), "rowContactList.json", JSON.toJSONString(rowContactList));
+        if (cursor3 == null) {
+            return;
+        }
+        String[] names3 = cursor3.getColumnNames();
+        List<Map<String, Object>> dataList = new ArrayList<>();
+        while (cursor3.moveToNext()) {
+            Map<String, Object> map = new HashMap<>();
+            for (String name : names3) {
+                try {
+                    map.put(name, cursor3.getString(cursor3.getColumnIndex(name)));
+                } catch (Exception e) {
+                    map.put(name, cursor3.getBlob(cursor3.getColumnIndex(name)));
+                }
+            }
+            dataList.add(map);
+        }
+        Log.i(TAG, "dataList: " + JSON.toJSONString(dataList));
+        FileUtil.printStringToFile(context.getCacheDir().getAbsolutePath(), "dataList.json", JSON.toJSONString(dataList));
     }
 
     public interface ContactCallback {
